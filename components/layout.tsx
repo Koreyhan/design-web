@@ -1,20 +1,17 @@
-import Alert from './alert'
-import Footer from './footer'
-import Meta from './meta'
+import Footer from './Footer'
+import Meta from './Meta'
 
 type Props = {
-  preview?: boolean
   children: React.ReactNode
 }
 
-const Layout = ({ preview, children }: Props) => {
+const Layout = ({ children }: Props) => {
   return (
     <>
       <Meta />
-      <div className="min-h-screen">
-        <Alert preview={preview} />
-        <main>{children}</main>
-      </div>
+      <main className="common-container">
+        {children}
+      </main>
       <Footer />
     </>
   )
