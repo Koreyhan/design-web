@@ -5,10 +5,7 @@ type Props = {
 const PostBody = ({ content }: Props) => {
   return (
     <div className="">
-      <div
-        className="common-markdown"
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
+      <div className="common-markdown" dangerouslySetInnerHTML={{ __html: content }} />
     </div>
   )
 }
