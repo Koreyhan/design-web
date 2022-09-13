@@ -18,12 +18,12 @@ export type Props = {
 const CodeMirror: FC<Props> = ({ value, selection, elementProps, onUpdate, onEditorStateChange }) => {
   const nodeRef = useRef<HTMLDivElement | null>(null)
   const [editorView, setEditorView] = useState<EditorView>()
+  const isFirstRender = useFirstRender()
 
   const updateExtension = useMemo<Extension | undefined>(
     () => (onUpdate ? EditorView.updateListener.of(onUpdate) : undefined),
     []
   )
-  // const extensions = useMemo(() => [basicSetup, oneDark, langMarkdown()], [])
   const extensions = useMemo<Extension>(
     () => {
       const baseExtensions = [basicSetup, oneDark, langMarkdown()]
@@ -32,8 +32,8 @@ const CodeMirror: FC<Props> = ({ value, selection, elementProps, onUpdate, onEdi
     },
     [updateExtension]
   )
-  const isFirstRender = useFirstRender()
 
+  // init
   useEffect(() => {
     const state = EditorState.create({
       doc: value,

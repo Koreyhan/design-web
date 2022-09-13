@@ -4,7 +4,6 @@ import matter from 'gray-matter'
 import markdownToHtml from '@/lib/markdownToHtml'
 import { ViewUpdate } from '@codemirror/view'
 
-import { TextArea } from '@douyinfe/semi-ui'
 import Layout from '@/components/Layout'
 import PostBody from '@/components/PostBody'
 import CodeMirror from '@/components/CodeMirror'
@@ -26,15 +25,17 @@ export default function Index({ }: Props) {
   const [mdText, setMdText] = useState('')
   const [mdContent, setMdContent] = useState('')
 
-  const [state, setConfig] = useMdx({
+  const [mdState, setConfig] = useMdx({
     gfm: false,
     frontmatter: false,
     value: '1212'
   })
 
-  const onCodeUpdate = useCallback((update: ViewUpdate) => {
-    setConfig({ ...state, value: String(update.state.doc) })
-  }, [])
+  const onMdUpdate = useCallback((vu: ViewUpdate) => {
+    if (vu.docChanged) {
+      setConfig({ ...mdState, value: String(vu.state.doc) })
+    }
+  }, [mdState])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -61,7 +62,7 @@ export default function Index({ }: Props) {
     <>
       <Layout>
         <input type="file" accept=".md" onInput={handleFileChange} />
-        <CodeMirror value="$ doc" onUpdate={onCodeUpdate} />
+        <CodeMirror value={mdText} onUpdate={onMdUpdate} />
 
         <PostBody content={mdContent} />
       </Layout>
